@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import {
   GlobalState,
+  GlobalData,
   PersonalData,
   Achievement,
   Study,
@@ -9,33 +10,43 @@ import {
   Experience,
 } from "@/store/cv.types";
 
+const initialState = {
+  personalData: {
+    firstName: "name",
+    email: "example@mail.dev",
+    lastName: "last name",
+    residency: "Some city",
+  },
+  aboutMe: "About me...",
+  softSkills: [],
+  hardSkills: [],
+  futureSkills: [],
+  keyAchievements: [],
+  goals: [],
+  languages: ["english"],
+  studies: [
+    {
+      begin: new Date(),
+      end: new Date(),
+      degree: "Degree",
+      description: "Description",
+      title: "title",
+    },
+  ],
+  projects: [],
+  experiences: [],
+};
+
 const useCVData = create(
   persist<GlobalState>(
     (set) => ({
-      personalData: {
-        firstName: "name",
-        email: "example@mail.dev",
-        lastName: "last name",
-        residency: "Some city",
+      ...initialState,
+      resetGlobalData: () => {
+        set(initialState);
       },
-      aboutMe: "About me...",
-      softSkills: [],
-      hardSkills: [],
-      futureSkills: [],
-      keyAchievements: [],
-      goals: [],
-      languages: ["english"],
-      studies: [
-        {
-          begin: new Date(),
-          end: new Date(),
-          degree: "Degree",
-          description: "Description",
-          title: "title",
-        },
-      ],
-      projects: [],
-      experiences: [],
+      setGlobalData: (globalData: GlobalData) => {
+        set(globalData);
+      },
       setPersonalData: (personalData: PersonalData) => {
         set({ personalData });
       },
@@ -181,7 +192,22 @@ export const getStudies = (state: GlobalState) => state.studies;
 export const getLanguages = (state: GlobalState) => state.languages;
 export const getProjects = (state: GlobalState) => state.projects;
 export const getExperiences = (state: GlobalState) => state.experiences;
+export const getGlobalData = (state: GlobalState) => ({
+  personalData: state.personalData,
+  aboutMe: state.aboutMe,
+  softSkills: state.softSkills,
+  hardSkills: state.hardSkills,
+  futureSkills: state.futureSkills,
+  keyAchievements: state.keyAchievements,
+  goals: state.goals,
+  studies: state.studies,
+  languages: state.languages,
+  projects: state.projects,
+  experiences: state.experiences,
+});
 export const getGlobalMethods = (state: GlobalState) => ({
+  resetGlobalData: state.resetGlobalData,
+  setGlobalData: state.setGlobalData,
   setPersonalData: state.setPersonalData,
   setAboutMe: state.setAboutMe,
   setSoftSkills: state.setSoftSkills,

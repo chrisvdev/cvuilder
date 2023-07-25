@@ -1,6 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { User } from "firebase/auth";
-import auth from "./auth";
+import auth from "@/firebase/auth/auth";
 import { useState, useEffect } from "react";
 
 export default function useLoggedState() {
@@ -10,6 +10,5 @@ export default function useLoggedState() {
       setLogged(user);
     });
   }, []);
-  useEffect(() => console.log(logged), [logged]);
   return logged;
 }

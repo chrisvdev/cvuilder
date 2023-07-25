@@ -69,6 +69,8 @@ export interface GlobalData {
 }
 
 export interface GlobalMethods {
+  resetGlobalData: () => void;
+  setGlobalData: (globlaData: GlobalData) => void;
   setPersonalData: (personalData: PersonalData) => void;
   setAboutMe: (aboutMe: string) => void;
   setSoftSkills: (softSkills: string[]) => void;
